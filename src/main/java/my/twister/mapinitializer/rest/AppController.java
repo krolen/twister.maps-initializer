@@ -34,8 +34,14 @@ public class AppController {
 
   @RequestMapping(value = "/tweets/{id}", method = RequestMethod.DELETE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void createTweets(@PathVariable(value = "id") Long id) {
+  public void deleteTweets(@PathVariable(value = "id") Long id) {
     cdsDelegate.deleteTweetsMap(id);
+  }
+
+  @RequestMapping(value = "/tweets/{id}", method = RequestMethod.POST)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void createTweets(@PathVariable(value = "id") Long id) {
+    cdsDelegate.createTweetsMap(id);
   }
 
 

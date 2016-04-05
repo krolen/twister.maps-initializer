@@ -6,7 +6,9 @@ import net.openhft.chronicle.core.values.LongValue;
 import net.openhft.chronicle.map.ChronicleMap;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.NavigableMap;
 
 /**
  * Created by kkulagin on 4/2/2016.
@@ -14,7 +16,13 @@ import javax.annotation.PreDestroy;
 @Service
 public class CDSDelegate {
 
-  private ChronicleDataService chronicleDataService = (ChronicleDataService.DefaultChronicleDataService) ChronicleDataService.getInstance();
+  private ChronicleDataService chronicleDataService;
+
+  @PostConstruct
+  public void init() {
+    chronicleDataService = ChronicleDataService.getInstance();
+    chronicleDataService.connect(-1);
+  }
 
   public ChronicleMap<CharSequence, LongValue> getName2IdMap() {
     return chronicleDataService.getName2IdMap();
@@ -44,15 +52,19 @@ public class CDSDelegate {
     getHacked().createTweetsMap(id, true);
   }
 
-
   public void deleteTweetsMap(long id) {
     getHacked().removeTweetsMap(id);
+  }
+
+  public NavigableMap<Long, ChronicleMap<LongValue, IShortTweet>> getTweetsDataMaps() {
+    return getHacked().getTweetsDataMaps();
   }
 
   @PreDestroy
   public void destroy() {
     chronicleDataService.close();
   }
+
   private ChronicleDataService.DefaultChronicleDataService getHacked() {
     return (ChronicleDataService.DefaultChronicleDataService) chronicleDataService;
   }
