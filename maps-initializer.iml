@@ -22,9 +22,9 @@
     <orderEntry type="library" name="Maven: net.openhft:chronicle-core:1.3.6" level="project" />
     <orderEntry type="library" name="Maven: net.openhft:chronicle-values:1.0.7-alpha" level="project" />
     <orderEntry type="module-library">
-      <library name="Maven: com.sun.java:tools:1.8.0_72">
+      <library name="Maven: com.sun.java:tools:1.8.0_77">
         <CLASSES>
-          <root url="jar://C:/Java/jdk1.8.0_72/lib/tools.jar!/" />
+          <root url="jar://C:/Java/jdk1.8.0_77/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -47,7 +47,9 @@
     <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.ops4j.pax.url:pax-url-aether:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.7.16" level="project" />
+    <orderEntry type="library" name="Maven: net.openhft:chronicle-queue:4.2.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:19.0" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-actuator:1.3.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:1.3.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.3.3.RELEASE" level="project" />

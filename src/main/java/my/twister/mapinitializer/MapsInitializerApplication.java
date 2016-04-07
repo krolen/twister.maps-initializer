@@ -10,6 +10,9 @@ import org.springframework.boot.context.embedded.jetty.JettyServerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.net.URL;
+import java.net.URLClassLoader;
+
 @SpringBootApplication
 @ComponentScan(basePackages = "my.twister")
 public class MapsInitializerApplication {
