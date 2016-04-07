@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.NavigableMap;
@@ -29,20 +30,26 @@ public class ControlService implements LogAware {
     createMissingTwitterDataMaps(LocalDateTime.now().minusHours(1));
   }
 
-  // makes sure twitter data map is present for specified time rounded to an hour
-  private void createMissingTwitterDataMaps(LocalDateTime time) {
-    LocalDateTime hourStart = time.truncatedTo(ChronoUnit.HOURS);
-    long hourStartInMillis = Utils.toMillis(hourStart);
-    NavigableMap<Long, ChronicleMap<LongValue, IShortTweet>> dataMaps = cdsDelegate.getTweetsDataMaps();
-    if(!dataMaps.containsKey(hourStartInMillis)) {
-      cdsDelegate.createTweetsMap(hourStartInMillis);
-    }
-  }
-
   @Scheduled(cron = "0 15/30 * * * *")
   public void execute() {
     createMissingTwitterDataMaps(LocalDateTime.now());
-    deleteOldMaps(LocalDateTime.now().minusHours(5));
+    deleteOldMaps(LocalDateTime.now().minusHours(4));
+  }
+
+  // makes sure twitter data map is present for specified time rounded to an hour
+  private void createMissingTwitterDataMaps(LocalDateTime time) {
+    LocalDateTime hourStart = time.truncatedTo(ChronoUnit.HOURS);
+    NavigableMap<Long, ChronicleMap<LongValue, IShortTweet>> dataMaps = cdsDelegate.getTweetsDataMaps();
+    long hourStartInMillis = Utils.toMillis(hourStart);
+    createMap(dataMaps, hourStartInMillis);
+    long nextHourMillis = hourStartInMillis + Duration.ofHours(1).toMillis();
+    createMap(dataMaps, nextHourMillis);
+  }
+
+  private void createMap(NavigableMap<Long, ChronicleMap<LongValue, IShortTweet>> dataMaps, long hourStartInMillis) {
+    if(!dataMaps.containsKey(hourStartInMillis)) {
+      cdsDelegate.createTweetsMap(hourStartInMillis);
+    }
   }
 
   private void deleteOldMaps(LocalDateTime time) {
