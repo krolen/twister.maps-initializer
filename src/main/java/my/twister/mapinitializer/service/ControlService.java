@@ -44,6 +44,8 @@ public class ControlService implements LogAware {
     createMap(dataMaps, hourStartInMillis);
     long nextHourMillis = hourStartInMillis + Duration.ofHours(1).toMillis();
     createMap(dataMaps, nextHourMillis);
+    long nextNextHourMillis = hourStartInMillis + Duration.ofHours(2).toMillis();
+    createMap(dataMaps, nextNextHourMillis);
   }
 
   private void createMap(NavigableMap<Long, ChronicleMap<LongValue, IShortTweet>> dataMaps, long hourStartInMillis) {
