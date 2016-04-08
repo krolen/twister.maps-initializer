@@ -1,6 +1,6 @@
 package my.twister.mapinitializer.service;
 
-import my.twister.chronicle.CDSDelegate;
+import my.twister.chronicle.CDSController;
 import my.twister.entities.IShortTweet;
 import my.twister.utils.LogAware;
 import my.twister.utils.Utils;
@@ -23,11 +23,12 @@ import java.util.NavigableMap;
 public class ControlService implements LogAware {
 
   @Autowired
-  private CDSDelegate cdsDelegate;
+  private CDSController cdsController;
 
   @PostConstruct
   public void init() {
     createMissingTwitterDataMaps(LocalDateTime.now().minusHours(1));
+    deleteOldMaps(LocalDateTime.now().minusHours(4));
   }
 
   @Scheduled(cron = "0 15/30 * * * *")
@@ -39,7 +40,7 @@ public class ControlService implements LogAware {
   // makes sure twitter data map is present for specified time rounded to an hour
   private void createMissingTwitterDataMaps(LocalDateTime time) {
     LocalDateTime hourStart = time.truncatedTo(ChronoUnit.HOURS);
-    NavigableMap<Long, ChronicleMap<LongValue, IShortTweet>> dataMaps = cdsDelegate.getTweetsDataMaps();
+    NavigableMap<Long, ChronicleMap<LongValue, IShortTweet>> dataMaps = cdsController.getTweetsDataMaps();
     long hourStartInMillis = Utils.toMillis(hourStart);
     createMap(dataMaps, hourStartInMillis);
     long nextHourMillis = hourStartInMillis + Duration.ofHours(1).toMillis();
@@ -50,16 +51,17 @@ public class ControlService implements LogAware {
 
   private void createMap(NavigableMap<Long, ChronicleMap<LongValue, IShortTweet>> dataMaps, long hourStartInMillis) {
     if(!dataMaps.containsKey(hourStartInMillis)) {
-      cdsDelegate.createTweetsMap(hourStartInMillis);
+      cdsController.createTweetsMap(hourStartInMillis);
     }
   }
 
   private void deleteOldMaps(LocalDateTime time) {
     long timeInMillis = Utils.toMillis(time);
-    NavigableMap<Long, ChronicleMap<LongValue, IShortTweet>> dataMaps = cdsDelegate.getTweetsDataMaps();
+    NavigableMap<Long, ChronicleMap<LongValue, IShortTweet>> dataMaps = cdsController.getTweetsDataMaps();
     dataMaps.navigableKeySet().stream().filter((l) -> l < timeInMillis).forEach((l) -> {
       try {
-        cdsDelegate.deleteTweetsMap(l);
+        log().info("Deleting old tweets map " + l);
+        cdsController.deleteTweetsMap(l);
       } catch (Exception e) {
         log().error("Error deleting map: " + l, e);
       }
