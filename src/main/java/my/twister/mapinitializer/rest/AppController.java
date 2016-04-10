@@ -17,7 +17,7 @@ public class AppController {
   @RequestMapping(value = "/profile/id2Profile", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void createId2Profile(@RequestParam(value = "force", required = false, defaultValue = "false") boolean force) {
-    throw new UnsupportedOperationException("Method not implemented");
+    cdsController.createId2Profile(force);
   }
 
   @RequestMapping(value = "/profile/id2TimeMap", method = RequestMethod.POST)

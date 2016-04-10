@@ -44,6 +44,10 @@ public class CDSController {
     chronicleDataService.initName2IdMap(force);
   }
 
+  public void createId2Profile(boolean force) {
+    chronicleDataService.initId2ProfileMap(force);
+  }
+
   public void createTweetsMap(Long time) {
     chronicleDataService.createOrConnectTweetsMap(time);
   }
