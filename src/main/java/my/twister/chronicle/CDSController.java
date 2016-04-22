@@ -2,7 +2,7 @@ package my.twister.chronicle;
 
 import my.twister.entities.IShortTweet;
 import net.openhft.chronicle.core.values.LongValue;
-import net.openhft.chronicle.map.ChronicleMap;
+import net.openhft.chronicle.mapshd.ChronicleMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;

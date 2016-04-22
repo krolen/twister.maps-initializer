@@ -5,7 +5,7 @@ import my.twister.entities.IShortTweet;
 import my.twister.utils.LogAware;
 import my.twister.utils.Utils;
 import net.openhft.chronicle.core.values.LongValue;
-import net.openhft.chronicle.map.ChronicleMap;
+import net.openhft.chronicle.mapshd.ChronicleMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
