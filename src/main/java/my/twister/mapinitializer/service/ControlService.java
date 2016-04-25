@@ -27,14 +27,14 @@ public class ControlService implements LogAware {
 
   @PostConstruct
   public void init() {
+    deleteOldMaps(LocalDateTime.now().minusHours(3));
     createMissingTwitterDataMaps(LocalDateTime.now().minusHours(1));
-    deleteOldMaps(LocalDateTime.now().minusHours(4));
   }
 
   @Scheduled(cron = "0 15/30 * * * *")
   public void execute() {
+    deleteOldMaps(LocalDateTime.now().minusHours(3));
     createMissingTwitterDataMaps(LocalDateTime.now());
-    deleteOldMaps(LocalDateTime.now().minusHours(4));
   }
 
   // makes sure twitter data map is present for specified time rounded to an hour
